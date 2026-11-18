@@ -45,6 +45,14 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/rooms', roomRoutes);
 
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    message: 'Sunshine Hotel Backend is running successfully! 🚀', 
+    status: 'OK',
+    timestamp: new Date() 
+  });
+});
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', timestamp: new Date() });
 });
