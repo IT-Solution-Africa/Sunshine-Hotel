@@ -272,7 +272,6 @@ export const updateBooking = async (req, res) => {
 export const deleteBooking = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid reservation ID format.' });
     }
@@ -282,11 +281,14 @@ export const deleteBooking = async (req, res) => {
       return res.status(404).json({ error: 'Reservation not found.' });
     }
 
-    // Cancel associated pending payment and remove reservation
-    await Payment.deleteMany({ reservation_id: reservation._id, status: 'Pending' });
+    if (reservation.status === 'Confirmed') {
+      return res.status(400).json({ error: 'Cannot delete a confirmed reservation. Cancel it instead.' });
+    }
+
+    await Payment.deleteMany({ reservation_id: reservation._id });
     await reservation.deleteOne();
 
-    res.status(200).json({ message: 'Reservation deleted successfully.' });
+    res.status(200).json({ message: 'Reservation and associated records deleted successfully.' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

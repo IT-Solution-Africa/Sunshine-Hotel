@@ -38,12 +38,12 @@ app.use(
 app.use(sanitizeInput);
 
 // Apply rate limiting specifically to the booking initiation endpoint
-app.use('/api/bookings/initiate', bookingLimiter);
+// app.use('/api/bookings/initiate', bookingLimiter);
 
 // API Routes
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/webhooks', webhookRoutes);
-app.use('/api/rooms', roomRoutes);
+// app.use('/api/bookings', bookingRoutes);
+// app.use('/api/webhooks', webhookRoutes);
+// app.use('/api/rooms', roomRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({ 
